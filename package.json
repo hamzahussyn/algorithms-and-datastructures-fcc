@@ -1,0 +1,11 @@
+{
+  "name": "fcc-ds-and-algo",
+  "version": "1.0.0",
+  "description": "Solutions for Free Code Camp's algo & ds projects.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hamza Hussain <hamzahussain@folio3.com>",
+  "license": "ISC"
+}
