@@ -1,5 +1,7 @@
+"use strict";
+
 /*
-Used a stack instead of JS own iterative methods, as a standard of other strongly typed languages.
+Used a stack instead of JS own iterable types or methods, as a standard from other strongly typed languages.
 */
 
 class Stack {
@@ -8,7 +10,7 @@ class Stack {
   }
 
   lookup = (index) => this.stackArray[index];
-  pop = () => this.stackArray.pop();
+  pop = () => (this.size() > 0 ? this.stackArray.pop() : null);
   push = () => this.stackArray.push();
   print = () => console.log(this.stackArray.toString());
   size = () => this.stackArray.length;
@@ -19,18 +21,27 @@ class Stack {
 const MAX_DIGITS = 11;
 const MIN_DIGITS = 10;
 const COUNTRY_CODE = "1";
-const SAPERATORS = ["-", "(", ")", " "];
 
 const nonNumberCharactersRegex = new RegExp("[^a-z0-9()-s]");
 const numericCharactersRegex = new RegExp("^[0-9]$");
 const removeWhiteSpaces = new RegExp("\\s", "g");
+const onlyNumericsRegex = new RegExp("[^a-z0-9]", "g");
+
+const SAPERATOR_TYPE = {
+  OPEN_PAREN: "(",
+  CLOSE_PAREN: ")",
+  HYPHEN: "-",
+  WHITE_SPACE: " ",
+};
+
+const SAPERATORS = Object.values(SAPERATOR_TYPE);
 
 // Helpers
 function validCountryCode(num, stack) {
-  let cleanedNum = num.replace(/[^a-z0-9]/gi, "");
+  let cleanedNum = num.replace(onlyNumericsRegex, "");
   let code = stack.pop();
 
-  if(SAPERATORS.includes(code)) return false;
+  if (SAPERATORS.includes(code)) return false;
   if (cleanedNum.length == MAX_DIGITS) return code === COUNTRY_CODE ? true : false;
   if (cleanedNum.length == MIN_DIGITS) return true;
   if (cleanedNum.length > MAX_DIGITS || cleanedNum.length < MIN_DIGITS) return false;
@@ -64,7 +75,10 @@ function patternMatcher(stack, patternLength) {
 
   if (saperatorStart && SAPERATORS.includes(stack.lookup(stack.size() - 1))) {
     if (stack.lookup(stack.size() - 1) !== saperator) {
-      if (saperator == ")" && stack.lookup(stack.size() - 1) == "(") {
+      if (
+        saperator == SAPERATOR_TYPE.CLOSE_PAREN &&
+        stack.lookup(stack.size() - 1) == SAPERATOR_TYPE.OPEN_PAREN
+      ) {
         saperatorEnd = true;
         saperatorTwo = stack.pop();
         return true;

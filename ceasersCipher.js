@@ -2,11 +2,11 @@ const NUM_OF_ALPHABETS = 26;
 const LAST_UPPER_ASC = 90;
 const LAST_LOWER_ASC = 122;
 
-function getCode(char){
+function getCode(char) {
   let code = char.match(/^[0-9A-Za-z]+$/) ? char.charCodeAt(0) + 13 : char.charCodeAt(0);
   let upperCase = false;
 
-  if(char.toUpperCase() === char){
+  if (char.toUpperCase() === char) {
     upperCase = true;
   }
 
